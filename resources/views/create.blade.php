@@ -12,11 +12,11 @@
         <div class="flex-center position-ref full-height">
             <div class="content">
                 <div id="app">
-                    <customer></customer>
+                    <create></create>
                 </div>
 
             </div>
         </div>
     </body>
-    <script src="{{url('js/app.js')}}" charset="utf-8"></script>
+    <script src="{{url('/js/app.js')}}" charset="utf-8"></script>
 </html>
