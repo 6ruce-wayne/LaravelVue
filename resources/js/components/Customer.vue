@@ -1,17 +1,21 @@
 <template>
     <div class="container">
-        <h2>Customer management</h2>
-        <h3>vue.js</h3>
+        <h2 class="pd-3">ข้อมูลลูกค้า I-Smart</h2>
         <table class="table table-bordered">
             <tr>
                 <th>Code</th>
                 <th>Name</th>
+                <th>Contact Person</th>
+                <th>Company</th>
                 <th>แก้ไข</th>
                 <th>ลบ</th>
             </tr>
             <tr v-for="customer in customers" :key="customer.CustomerCode">
-                <td>{{customer.CBUPA_UUID}}</td>
-                <td>{{customer.TBUPA_UUID}}</td>
+                <td>{{customer.CustomerCode}}</td>
+                <td>{{customer.CustomerName}}</td>
+                <td>{{customer.ContactPerson}}</td>
+                <td v-if="customer.Company == 40">CHO</td>
+                <td v-else>TMT</td>
                 <td><button type="button" class="btn btn-outline-primary justify-content-center">แก้ไข</button></td>
                 <td><button type="button" class="btn btn-outline-danger justify-content-center">ลบ</button></td>
             </tr>
@@ -24,7 +28,7 @@
 export default{
  mounted(){
      console.log("Mounted")
-     this.getCustomerSAP();
+     this.getCustomerData();
  },
  methods:{
      getCustomerData(){
@@ -35,15 +39,14 @@ export default{
      },
      getCustomerSAP(){
          console.log("Get Sap");
-         axios.get('https://my336053.sapbydesign.com/sap/byd/odata/ana_businessanalytics_analytics.svc/RPBUPAIDENTIFICATION_Q0001QueryResults?$select=CBUPA_UUID,TBUPA_UUID&$format=json',{
-             auth: {
-             username:'itadmin',
-             password:'gobalRR88'
-         },
-         withCredentials : true,
-         crossDomain: true,
-          headers: {"Content-Type": "application/json"}
-         }).then(response=>{
+         const o = require('odata').o;
+         o('https://my336053.sapbydesign.com/sap/byd/odata/ana_businessanalytics_analytics.svc/RPBUPAIDENTIFICATION_Q0001QueryResults?$select=CBUPA_UUID,TBUPA_UUID&$format=json',{
+             auth:{
+                 username:'itadmin',
+                 passowrd:'gobalRR88'
+             }
+         })
+         .get('CBUPA_UUID').then(response=>{
              this.customers=response.data;
          });
      }
@@ -52,8 +55,10 @@ export default{
      return {
          customers:[],
          customer:{
-           CBUPA_UUID:'',
-           TBUPA_UUID:''
+           CustomerCode:0,
+           CustomerName:'',
+           ContactPerson:'',
+           Company:0
          }
      }
  }
