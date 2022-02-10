@@ -13,6 +13,7 @@ class Categorie extends Model
     protected $primaryKey ='id';
 
     protected $filteable = [
+        'asset_id',
         'parent_id',
         'title',
         'path',

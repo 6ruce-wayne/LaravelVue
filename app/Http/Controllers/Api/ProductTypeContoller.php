@@ -1,19 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\api;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Categorie;
-use App\Models\Content;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AssetCollection;
 use App\Http\Resources\AssetResource;
-use App\Http\Resources\ContentCollection;
-use App\Http\Resources\ContentResource;
 use App\Models\Assets;
 use Illuminate\Http\Request;
 
 
-class ProductController extends Controller
+class ProductTypeContoller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,14 +18,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-       /* $contents = collect();
-        $assets = Categorie::where('name','LIKE','com_content.article.%')->get();
-        foreach ($assets as $asset){
-            $contents->push(Content::where('asset_id',$asset['id'])->get());
-        }
-        return response()->json($contents); */
-        $assets = Assets::where('name','LIKE','com_content.article.%')
-        ->where('level','>=',5)->get();
+        /*$assets = Assets::where('name','LIKE','com_content.category.%')->get();
+        return new AssetCollection($assets);*/
+        $assets = Assets::where('name','LIKE','com_content.category.%')->get();
         return new AssetCollection($assets);
     }
 
@@ -62,10 +53,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-       $content = Content::where('asset_id',$id)->first();
-       return new ContentResource($content);
+        //
     }
-
 
     /**
      * Show the form for editing the specified resource.
